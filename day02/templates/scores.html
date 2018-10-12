@@ -1,0 +1,37 @@
+
+{% extends 'base_main.html' %}
+
+{% block content %}
+
+    {% from 'functions.html' import hello %}
+    {{ hello() }}
+
+    {% from 'functions.html' import say %}
+    {{ say('D') }}
+
+    <br>
+
+    {# 渲染样式 #}
+    {{ content_h2 | safe }}<br>
+    {{ content_h2 | safe | length }}<br>
+    {# 去掉标签 #}
+    {{ content_h2 | striptags }}<br>
+    {# 驼峰式命名 #}
+    {{ content_h2 | striptags | title }}<br>
+    {# 全部小写 #}
+    {{ content_h2 | striptags | lower }}<br>
+    {# 全部大写 #}
+    {{ content_h2 | striptags | upper }}<br>
+    <br>
+    {{ stu_scores }}
+    {% for score in stu_scores %}
+        {# Jinja2中没有ifequal #}
+        <p {% if loop.first %} style="color:red;"{% endif %}>
+            {# loop.index0从0开始 loop.revindex倒序（第一位默认为1） loop.revindex0倒序（第一位默认为0） #}
+            序号：{{ loop.index }}
+            成绩：{{ score }}
+            循环：{{ loop.first }}
+        </p>
+    {% endfor %}
+
+{% endblock %}
