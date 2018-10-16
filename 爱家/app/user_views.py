@@ -4,25 +4,33 @@
 # @Email   : 1638327522@qq.com
 # @File    : user_views.py
 # @Software: PyCharm
+import os
 import random
 import re
 
-from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify
+from flask import Blueprint, render_template, request, session, jsonify
 
 from app.models import db, User
 from utils import status_code
+from utils.config import Config
 
 user_blueprint = Blueprint('user', __name__)
 
 
 @user_blueprint.route('/create_db/', methods=['GET'])
 def create_db():
+    """
+    创建数据表
+    """
     db.create_all()
     return '创建成功'
 
 
 @user_blueprint.route('/get_code/', methods=['GET'])
 def get_code():
+    """
+    生成验证码
+    """
     code = ''
     s = '1234567890qwertyuiopasdfghjklzxcvbnm'
     for i in range(4):
@@ -33,10 +41,19 @@ def get_code():
 
 @user_blueprint.route('/register/', methods=['GET', 'POST'])
 def register():
+    """
+    注册
+    """
     if request.method == 'GET':
+        """
+        跳转至注册页面
+        """
         return render_template('register.html')
 
     if request.method == 'POST':
+        """
+        注册用户
+        """
         mobile = request.form.get('mobile')
         imageCode = request.form.get('imageCode')
         password = request.form.get('password')
@@ -71,10 +88,19 @@ def register():
 
 @user_blueprint.route('/login/', methods=['GET', 'POST'])
 def login():
+    """
+    登录
+    """
     if request.method == 'GET':
+        """
+        跳转至登录界面
+        """
         return render_template('login.html')
 
     if request.method == 'POST':
+        """
+        登录验证
+        """
         mobile = request.form.get('mobile')
         password = request.form.get('password')
         # 效验信息完整
@@ -96,7 +122,123 @@ def login():
             return jsonify(status_code.USER_ERROR)
 
 
-@user_blueprint.route('/my/', methods=['GET', 'POST'])
+@user_blueprint.route('/my/')
 def my():
+    """
+    登录之后进入用户首页
+    """
+    return render_template('my.html')
+
+
+@user_blueprint.route('/profile/', methods=['GET', 'PUT'])
+def profile():
+    """
+    修改用户信息
+    """
     if request.method == 'GET':
-        return render_template('my.html')
+        """
+        跳转至修改用户信息界面
+        """
+        return render_template('profile.html')
+    if request.method == 'PUT':
+        """
+        处理用户提出的修改请求
+        """
+        name = request.form.get('name')
+        avatar = request.files.get('avatar')
+        if avatar:
+            try:
+                # mime-type:国际规范，表示文件的类型，如text/html,text/xml,image/png,image/jpeg..
+                if not re.match('image/.*', avatar.mimetype):
+                    return jsonify(status_code.USER_PROFILE_IMAGE_UPDATE_ERROR)
+            except:
+                return jsonify(code=status_code.PARAMS_ERROR)
+            # 保存到media中
+            con = Config()
+            url = os.path.join(con.UPLOAD_FOLDER, avatar.filename)
+            avatar.save(url)
+            # 保存用户的头像信息
+            try:
+                user = User.query.get(session['user_id'])
+                user.avatar = os.path.join('/static/media', avatar.filename)
+                user.add_update()
+            except:
+                return jsonify(status_code.DATABASE_ERROR)
+            # 返回图片信息
+            return jsonify(code='200', url=os.path.join('/static/media', avatar.filename))
+        elif name:
+            # 判断用户名是否存在
+            if User.query.filter_by(name=name).count():
+                return jsonify(status_code.USER_REGISTER_USER_IS_EXSITS)
+            else:
+                user = User.query.get(session['user_id'])
+                user.name = name
+                user.add_update()
+                return jsonify(status_code.SUCCESS)
+        else:
+            return jsonify(status_code.PARAMS_ERROR)
+
+
+@user_blueprint.route('/user/')
+def get_user_profile():
+    """
+    返回用户数据
+    :return: 数据库中当前用户信息
+    """
+    # 获取当前登录的用户
+    user_id = session['user_id']
+    # 查询当前用户的头像、用户名、手机号，并返回
+    user = User.query.get(user_id)
+    return jsonify(user=user.to_basic_dict())
+
+
+@user_blueprint.route('/auth/')
+def auth():
+    """
+    展示实名认证的界面
+    """
+    return render_template('auth.html')
+
+
+@user_blueprint.route('/auths/', methods=['GET', 'PUT'])
+def auth_info():
+    """
+    实名认证
+    """
+    if request.method == 'GET':
+        """
+        返回认证信息
+        """
+        # 获取当前登录用户的编号
+        user_id = session['user_id']
+        # 根据编号查询当前用户
+        user = User.query.get(user_id)
+        # 返回用户的真实姓名、身份证号
+        return jsonify(user.to_auth_dict())
+
+    if request.method == 'PUT':
+        """
+        处理认证请求
+        """
+        id_name = request.form.get('id_name')
+        id_card = request.form.get('id_card')
+        # 验证参数完整性
+        if not all([id_card, id_name]):
+            return jsonify(status_code.PARAMS_ERROR)
+        # 验证身份证号合法
+        if not re.match(r'^[1-9]\d{17}$', id_card):
+            return jsonify(status_code.USER_REGISTER_AUTH_ERROR)
+        # 修改数据对象
+        try:
+            user = User.query.get(session['user_id'])
+        except:
+            return jsonify(status_code.DATABASE_ERROR)
+
+        try:
+            user.id_card = id_card
+            user.id_name = id_name
+            user.add_update()
+        except:
+            return jsonify(status_code.DATABASE_ERROR)
+        # 返回数据
+        return jsonify(status_code.SUCCESS)

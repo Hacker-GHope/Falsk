@@ -8,12 +8,14 @@
 from flask import Flask
 from flask_script import Manager
 
+from app.house_views import house_blueprint
 from app.models import db
 from app.user_views import user_blueprint
 
 app = Flask(__name__)
 
-app.register_blueprint(blueprint=user_blueprint,url_prefix='/user')
+app.register_blueprint(blueprint=user_blueprint, url_prefix='/user')
+app.register_blueprint(blueprint=house_blueprint, url_prefix='/house')
 
 app.config['SECRET_KEY'] = 'secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:3306/aj'
