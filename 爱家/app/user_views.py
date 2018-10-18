@@ -122,6 +122,11 @@ def login():
             return jsonify(status_code.USER_ERROR)
 
 
+@user_blueprint.route('/logout/', methods=['DELETE'])
+def user_logout():
+    session.clear()
+    return jsonify(status_code.SUCCESS)
+
 @user_blueprint.route('/my/')
 def my():
     """
@@ -160,12 +165,12 @@ def profile():
             # 保存用户的头像信息
             try:
                 user = User.query.get(session['user_id'])
-                user.avatar = os.path.join('/static/media', avatar.filename)
+                user.avatar = os.path.join('/static/upload', avatar.filename)
                 user.add_update()
             except:
                 return jsonify(status_code.DATABASE_ERROR)
             # 返回图片信息
-            return jsonify(code='200', url=os.path.join('/static/media', avatar.filename))
+            return jsonify(code='200', url=os.path.join('/static/upload', avatar.filename))
         elif name:
             # 判断用户名是否存在
             if User.query.filter_by(name=name).count():

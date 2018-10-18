@@ -11,4 +11,4 @@ from utils.setting import BASE_DIR
 
 class Config():
     # 上传图片地址
-    UPLOAD_FOLDER = os.path.join(os.path.join(BASE_DIR, 'static'), 'media')
+    UPLOAD_FOLDER = os.path.join(os.path.join(BASE_DIR, 'static'), 'upload')

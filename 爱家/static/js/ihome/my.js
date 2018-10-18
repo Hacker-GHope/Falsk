@@ -1,9 +1,17 @@
 function logout() {
-    $.get("/api/logout", function(data){
-        if (0 == data.errno) {
-            location.href = "/";
+    $.ajax({
+        url:'/user/logout/',
+        type:'DELETE',
+        success:function(data) {
+            if(data.code=='200') {
+                location.href = '/house/index/';
+            }
         }
-    })
+    });
+}
+
+function hrefBack() {
+    history.go(-1);
 }
 
 $(document).ready(function(){

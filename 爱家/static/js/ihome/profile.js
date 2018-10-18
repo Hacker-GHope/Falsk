@@ -20,7 +20,7 @@ $(document).ready(function() {
             dataType: "json",
             success: function (data) {
                 if (data.code == '200') {
-                    $('#user-avatar').attr('src','/static/media/'+data.avatar);
+                    $('#user-avatar').attr('src','/static/upload/'+data.avatar);
                 } else {
                     $('#error_msg1').show();
                 }

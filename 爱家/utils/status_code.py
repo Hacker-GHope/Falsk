@@ -20,3 +20,6 @@ USER_ERROR = {'code': 10004, 'msg': '用户已存在'}
 USER_PROFILE_IMAGE_UPDATE_ERROR = {'code': 10005, 'msg': '文件类型错误'}
 USER_REGISTER_USER_IS_EXSITS = {'code': 10006, 'msg': '用户名已存在'}
 USER_REGISTER_AUTH_ERROR = {'code':10007,'msg':'身份证号码错误'}
+
+# 房屋模块
+MYHOUSE_USER_IS_NOT_AUTH = {'code':10008,'msg':'该用户未实名认证'}
