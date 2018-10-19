@@ -25,12 +25,14 @@ function showErrorMsg() {
 }
 
 $(document).ready(function(){
+
     $(".input-daterange").datepicker({
         format: "yyyy-mm-dd",
         startDate: "today",
         language: "zh-CN",
         autoclose: true
     });
+
     $(".input-daterange").on("changeDate", function(){
         var startDate = $("#start-date").val();
         var endDate = $("#end-date").val();
@@ -45,5 +47,30 @@ $(document).ready(function(){
             var amount = days * parseFloat(price);
             $(".order-amount>span").html(amount.toFixed(2) + "(共"+ days +"晚)");
         }
+    });
+
+    $('.submit-btn').click(function(){
+        var search = document.location.search
+        h_id = search.split('=')[1]
+        //获取入住时间
+        var startDate = $("#start-date").val();
+        var endDate = $("#end-date").val();
+        //发起请求下订单
+        $.post('/order/create/',{
+            house_id:h_id,
+            start_date:startDate,
+            end_date:endDate
+        },function (data) {
+            if(data.code== '200'){
+                location.href='/order/my_order/';
+            }
+        });
+    });
+
+    var path = window.location.search
+    var h_id = path.split('&')[0].split('=')[1]
+    $.get('/house/get_booking_by_id/' + h_id + '/', function(data){
+        $('.house-info img').attr('src', data.house.image)
+        $('.house-text').html('<h3>房屋标题</h3><p>￥<span>' + data.house.price + '</span>/晚</p>')
     });
 })

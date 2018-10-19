@@ -10,9 +10,7 @@ function logout() {
     });
 }
 
-function hrefBack() {
-    history.go(-1);
-}
+
 
 $(document).ready(function(){
     $.ajax({

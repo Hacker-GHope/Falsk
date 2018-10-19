@@ -8,7 +8,7 @@ import os
 
 from flask import Blueprint, render_template, request, session, jsonify
 
-from app.models import User, House, Facility, Area, HouseImage
+from app.models import User, House, Facility, Area, HouseImage, Order
 from utils import status_code
 from utils.config import Config
 
@@ -131,3 +131,104 @@ def house_detail(id):
             booking = 0
 
     return jsonify(house=house.to_full_dict(), facility_list=facility_dict_list, booking=booking)
+
+
+'''
+首页展示
+'''
+
+
+@house_blueprint.route('/index/')
+def house():
+    return render_template('index.html')
+
+
+'''
+查询数据库中当前用户数据
+'''
+
+
+@house_blueprint.route('/hindex/', methods=['GET'])
+def index():
+    # 返回最新的5个房屋信息
+    hlist = House.query.order_by(House.id.desc()).all()[:5]
+    hlist2 = [house.to_dict() for house in hlist]
+    # 查找地区信息
+    area_list = Area.query.all()
+    area_dict_list = [area.to_dict() for area in area_list]
+    if 'user_id' in session:
+        user = User.query.filter_by(id=session['user_id']).first()
+        user_name = user.name
+        code = status_code.OK
+        return jsonify(code=code, name=user_name, hlist=hlist2, alist=area_dict_list)
+    return jsonify(hlist=hlist2, alist=area_dict_list)
+
+
+'''
+房间预约
+'''
+
+
+@house_blueprint.route('/booking/')
+def booking():
+    return render_template('booking.html')
+
+
+'''
+房间预约,房屋详细信息获取
+'''
+
+
+@house_blueprint.route('/get_booking_by_id/<int:id>/')
+def get_booking_by_id(id):
+    house = House.query.get(id)
+    return jsonify(house=house.to_dict())
+
+
+'''
+搜索界面
+'''
+
+
+@house_blueprint.route('/search/', methods=['GET'])
+def search():
+    return render_template('search.html')
+
+
+'''
+搜索功能
+'''
+
+
+@house_blueprint.route('/my_search/', methods=['GET'])
+def my_search():
+    # 先获取区域id，订单开始时间，结束时间
+    aid = request.args.get('aid')
+    sd = request.args.get('sd')
+    ed = request.args.get('ed')
+    sk = request.args.get('sk')
+    # 获取某个区域的房屋信息
+    houses = House.query.filter(House.area_id == aid)
+    # 订单的三种情况，查询出的房屋都不能展示
+    order1 = Order.query.filter(Order.end_date >= ed, Order.begin_date <= ed)
+    order2 = Order.query.filter(Order.begin_date <= sd, Order.end_date >= sd)
+    order3 = Order.query.filter(Order.begin_date >= sd, Order.end_date <= ed)
+    house1 = [order.house_id for order in order1]
+    house2 = [order.house_id for order in order2]
+    house3 = [order.house_id for order in order3]
+    # 去重
+    not_show_house_id = list(set(house1 + house2 + house3))
+    # 最终展示的房屋信息
+    houses = houses.filter(House.id.notin_(not_show_house_id))
+    # 排序
+    if sk == 'new':
+        houses = houses.order_by('-id')
+    elif sk == 'booking':
+        houses = houses.order_by('-order_count')
+    elif sk == 'price-inc':
+        houses = houses.order_by('price')
+    elif sk == 'price-des':
+        houses = houses.order_by('-price')
+
+    house_info = [house.to_dict() for house in houses]
+    return jsonify(code=status_code.OK, house_info=house_info)

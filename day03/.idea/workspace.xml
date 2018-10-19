@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2575ce5-3603-4c92-a161-e838c07c1598" name="Default Changelist" comment="" />
+    <list default="true" id="e2575ce5-3603-4c92-a161-e838c07c1598" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../爱家/sql/sql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../爱家/utils/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../爱家/utils/funtions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day04/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day04/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day05/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day05/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/app/house_views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/app/house_views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/app/order_views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/app/order_views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/app/user_views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/app/user_views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/static/js/ihome/booking.js" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/static/js/ihome/booking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/static/js/ihome/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/static/js/ihome/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/static/js/ihome/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/static/js/ihome/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/static/js/ihome/lorders.js" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/static/js/ihome/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/static/js/ihome/my.js" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/static/js/ihome/my.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/static/js/ihome/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/static/js/ihome/orders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/templates/my.html" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/templates/my.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/templates/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/templates/order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/templates/orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/templates/orders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/utils/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/utils/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../爱家/utils/status_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/../爱家/utils/status_code.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,11 +35,11 @@
     <session id="-1878202063">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.0" value="1" />
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -62,7 +85,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="196">
               <caret line="7" selection-start-line="7" selection-end-line="21" selection-end-column="27" />
               <folding>
                 <marker date="1539247115548" expanded="true" signature="273:278" ph="..." />
@@ -74,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
+            <state relative-caret-position="1932">
               <caret line="72" column="10" lean-forward="true" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="10" />
               <folding>
                 <element signature="e#148#175#0" expanded="true" />
@@ -97,6 +120,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -113,11 +139,13 @@
     <option name="width" value="1070" />
     <option name="height" value="955" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -134,7 +162,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -201,7 +228,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.3297587" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
@@ -221,9 +248,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+          <folding>
+            <element signature="e#150#173#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/user/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="196">
           <caret line="7" selection-start-line="7" selection-end-line="21" selection-end-column="27" />
           <folding>
             <marker date="1539247115548" expanded="true" signature="273:278" ph="..." />
@@ -233,7 +270,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
+        <state relative-caret-position="1932">
           <caret line="72" column="10" lean-forward="true" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="10" />
           <folding>
             <element signature="e#148#175#0" expanded="true" />
@@ -242,16 +279,6 @@
             <marker date="1539157448751" expanded="true" signature="1099:1104" ph="..." />
             <marker date="1539157448751" expanded="true" signature="2758:2887" ph="..." />
             <marker date="1539157448751" expanded="true" signature="2945:2950" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
-          <folding>
-            <element signature="e#150#173#0" expanded="true" />
           </folding>
         </state>
       </provider>

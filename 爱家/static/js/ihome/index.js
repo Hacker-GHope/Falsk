@@ -44,34 +44,22 @@ function setEndDate() {
 }
 
 function goToSearchPage(th) {
-    var url = "/search.html?";
+    var url = "/house/search/?";
     url += ("aid=" + $(th).attr("area-id"));
     url += "&";
     var areaName = $(th).attr("area-name");
     if (undefined == areaName) areaName="";
-    url += ("aname=" + areaName);
+    url += ("name=" + areaName);
     url += "&";
     url += ("sd=" + $(th).attr("start-date"));
     url += "&";
     url += ("ed=" + $(th).attr("end-date"));
+    alert(url)
     location.href = url;
 }
 
+
 $(document).ready(function(){
-    $(".top-bar>.register-login").show();
-    var mySwiper = new Swiper ('.swiper-container', {
-        loop: true,
-        autoplay: 2000,
-        autoplayDisableOnInteraction: false,
-        pagination: '.swiper-pagination',
-        paginationClickable: true
-    }); 
-    $(".area-list a").click(function(e){
-        $("#area-btn").html($(this).html());
-        $(".search-btn").attr("area-id", $(this).attr("area-id"));
-        $(".search-btn").attr("area-name", $(this).html());
-        $("#area-modal").modal("hide");
-    });
     $('.modal').on('show.bs.modal', centerModals);      //当模态框出现的时候
     $(window).on('resize', centerModals);               //当窗口大小变化的时候
     $("#start-date").datepicker({
@@ -84,4 +72,51 @@ $(document).ready(function(){
         var date = $(this).datepicker("getFormattedDate");
         $("#start-date-input").val(date);
     });
+
+//  首页获取区域信息
+    $.get('/house/hindex/', function(data){
+
+        if(data.code == '200'){
+             $('.register-login').hide()
+             $('.user-info').show().find('.user-name').text(data.name)
+        }else{
+            $('.user-info').hide()
+            $('.register-login').show()
+        }
+
+        var area_html = template('home-area-list', {areas:data.alist})
+        $('.area-list').html(area_html)
+
+        $(".area-list a").click(function(e){
+            $("#area-btn").html($(this).html());
+            $(".search-btn").attr("area-id", $(this).attr("area-id"));
+            $(".search-btn").attr("area-name", $(this).html());
+            $("#area-modal").modal("hide");
+        });
+
+        var swiper_html = template('house_list', {hlist:data.hlist})
+        $('.swiper-wrapper').html(swiper_html)
+
+        var mySwiper = new Swiper ('.swiper-container', {
+            loop: true,
+            autoplay: 2000,
+            autoplayDisableOnInteraction: false,
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
+
+    });
 })
+
+function logout(){
+    $.ajax({
+        url: '/user/logout/',
+        type: 'DELETE',
+        success: function (data) {
+            if (data.code == '200') {
+                $(".user-info").hide();
+                $(".register-login").show();
+            }
+        }
+    });
+}

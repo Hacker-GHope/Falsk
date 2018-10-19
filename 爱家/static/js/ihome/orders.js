@@ -17,8 +17,53 @@ function getCookie(name) {
 $(document).ready(function(){
     $('.modal').on('show.bs.modal', centerModals);      //当模态框出现的时候
     $(window).on('resize', centerModals);
-    $(".order-comment").on("click", function(){
-        var orderId = $(this).parents("li").attr("order-id");
-        $(".modal-comment").attr("order-id", orderId);
+
+    $.get('/order/fd/', function (data) {
+        var html = template('order_list', {olist: data.olist});
+        $('.orders-list').html(html);
+        //当页面元素存在后，再绑定接单、拒单事件
+        //接单
+        $(".order-accept").on("click", function () {
+            var orderId = $(this).parents("li").attr("order-id");
+            $(".modal-accept").attr("order-id", orderId);
+        });
+        //拒单
+        $(".order-reject").on("click", function () {
+            var orderId = $(this).parents("li").attr("order-id");
+            $(".modal-reject").attr("order-id", orderId);
+        });
     });
+
+    //确定接单
+    $('.modal-accept').click(function () {
+        var order_id = $(this).attr('order-id');
+        $.ajax({
+            url: '/order/orders/' + order_id + '/',
+            type: 'put',
+            data: {'status': 'WAIT_PAYMENT'},
+            success: function (data) {
+//                $('#accept-modal').modal("hide");
+                $('#accept-modal').hide()
+                $('.modal-backdrop').css({'display': 'None'})
+                $('.order-operate').hide();
+                $('#' + order_id).text('待支付');
+            }
+        });
+    });
+    //拒单-确定
+    $('.modal-reject').click(function () {
+        var order_id = $(this).attr('order-id');
+        var comment=$('#reject-reason').val();
+        $.ajax({
+            url: '/order/orders/' + order_id + '/',
+            type: 'put',
+            data: {'status': 'REJECTED','comment':comment},
+            success: function (data) {
+                $('.order-operate').hide();
+                $('.modal-backdrop').css({'display': 'None'})
+                $('#' + order_id).text('已拒单');
+            }
+        });
+    });
+
 });

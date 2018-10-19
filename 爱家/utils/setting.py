@@ -15,3 +15,20 @@ static_dir = os.path.join(BASE_DIR, 'static')
 
 # 模板文件
 template_dir = os.path.join(BASE_DIR, 'templates')
+
+# 数据库配置
+MYSQL_DATABASES = {
+    'DRIVER': 'mysql',
+    'DH': 'pymysql',
+    'ROOT': 'root',
+    'PASSWORD': 'root',
+    'HOST': '127.0.0.1',
+    'PORT': '3306',
+    'NAME': 'aj'
+}
+
+# 会话缓存配置
+REDIS_DATABASES = {
+    'HOST': '127.0.0.1',
+    'PORT': '6379'
+}

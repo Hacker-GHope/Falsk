@@ -17,12 +17,13 @@ function getCookie(name) {
 $(document).ready(function(){
     $('.modal').on('show.bs.modal', centerModals);      //当模态框出现的时候
     $(window).on('resize', centerModals);
-    $(".order-accept").on("click", function(){
+    $(".order-comment").on("click", function(){
         var orderId = $(this).parents("li").attr("order-id");
-        $(".modal-accept").attr("order-id", orderId);
+        $(".modal-comment").attr("order-id", orderId);
     });
-    $(".order-reject").on("click", function(){
-        var orderId = $(this).parents("li").attr("order-id");
-        $(".modal-reject").attr("order-id", orderId);
-    });
+
+    $.get('/order/all_order/',function (data) {
+    var order_html=template('orders-list-tmpl',{olist:data.olist});
+    $('.orders-list').html(order_html);
+});
 });

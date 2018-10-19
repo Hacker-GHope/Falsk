@@ -33,7 +33,9 @@ function updateFilterDateDisplay() {
 // action=renew 代表页面数据清空从新展示
 function updateHouseData(action) {
     var areaId = $(".filter-area>li.active").attr("area-id");
-    if (undefined == areaId) areaId = "";
+    if (undefined == areaId){
+        areaId = location.search.split('&')[0].split('=')[1]
+    };
     var startDate = $("#start-date").val();
     var endDate = $("#end-date").val();
     var sortKey = $(".filter-sort>li.active").attr("sort-key");
@@ -45,6 +47,19 @@ function updateHouseData(action) {
         p:next_page
     };
     //发起ajax请求，获取数据，并显示在模板中
+    console.log(params)
+    $.ajax({
+        url:'/house/my_search/',
+        type:'GET',
+        data:params,
+        dataType:'json',
+        success:function(data){
+            if(data.code == '200'){
+                var search_html = template('search_house_script',{ohouse: data.house_info})
+                $('.house-list').html(search_html)
+            }
+        }
+    })
 }
 
 $(document).ready(function(){
@@ -57,6 +72,9 @@ $(document).ready(function(){
     var areaName = queryData["aname"];
     if (!areaName) areaName = "位置区域";
     $(".filter-title-bar>.filter-title").eq(1).children("span").eq(0).html(areaName);
+
+
+    // 获取筛选条件中的城市区域信息
 
     $(".input-daterange").datepicker({
         format: "yyyy-mm-dd",
@@ -98,6 +116,7 @@ $(document).ready(function(){
             $(this).removeClass("active");
             $(".filter-title-bar>.filter-title").eq(1).children("span").eq(0).html("位置区域");
         }
+
     });
     $(".filter-item-bar>.filter-sort").on("click", "li", function(e) {
         if (!$(this).hasClass("active")) {
@@ -106,4 +125,22 @@ $(document).ready(function(){
             $(".filter-title-bar>.filter-title").eq(2).children("span").eq(0).html($(this).html());
         }
     })
+
+    $.get('/house/area_facility/', function(data){
+        if(data.code == '200'){
+            for(var i=0;i<data.area_info.length;i++){
+                var area_li = '<li area-id="' + data.area_info[i].id + '">' + data.area_info[i].name + '</li>'
+                $('.filter-area').append(area_li)
+            }
+        }
+    })
+
+    var search_path = location.search
+    $.get('/house/my_search/' + search_path, function(data){
+        if(data.code == '200'){
+            var search_html = template('search_house_script',{ohouse: data.house_info})
+            $('.house-list').append(search_html)
+        }
+    })
+
 })

@@ -5,26 +5,15 @@
 # @File    : manager.py
 # @Software: PyCharm
 
-from flask import Flask
+
 from flask_script import Manager
 
-from app.house_views import house_blueprint
-from app.models import db
-from app.order_views import order_blueprint
-from app.user_views import user_blueprint
+from utils.app import create_app
 
-app = Flask(__name__)
+# 创建app
+app = create_app()
 
-app.register_blueprint(blueprint=user_blueprint, url_prefix='/user')
-app.register_blueprint(blueprint=house_blueprint, url_prefix='/house')
-app.register_blueprint(blueprint=order_blueprint, url_prefix='/order')
-
-app.config['SECRET_KEY'] = 'secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:3306/aj'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
-
+# 使用Manger管理app
 manager = Manager(app)
 
 if __name__ == '__main__':

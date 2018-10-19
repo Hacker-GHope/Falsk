@@ -13,24 +13,25 @@ from flask import Blueprint, render_template, request, session, jsonify
 from app.models import db, User
 from utils import status_code
 from utils.config import Config
+from utils.funtions import is_login
 
 user_blueprint = Blueprint('user', __name__)
 
 
+'''
+创建数据表
+'''
 @user_blueprint.route('/create_db/', methods=['GET'])
 def create_db():
-    """
-    创建数据表
-    """
     db.create_all()
     return '创建成功'
 
 
+'''
+生成验证码
+'''
 @user_blueprint.route('/get_code/', methods=['GET'])
 def get_code():
-    """
-    生成验证码
-    """
     code = ''
     s = '1234567890qwertyuiopasdfghjklzxcvbnm'
     for i in range(4):
@@ -39,11 +40,11 @@ def get_code():
     return jsonify(code=200, msg='请求成功', data=code)
 
 
+'''
+注册
+'''
 @user_blueprint.route('/register/', methods=['GET', 'POST'])
 def register():
-    """
-    注册
-    """
     if request.method == 'GET':
         """
         跳转至注册页面
@@ -86,11 +87,11 @@ def register():
             return jsonify(status_code.DATABASE_ERROR)
 
 
+'''
+登录
+'''
 @user_blueprint.route('/login/', methods=['GET', 'POST'])
 def login():
-    """
-    登录
-    """
     if request.method == 'GET':
         """
         跳转至登录界面
@@ -122,24 +123,31 @@ def login():
             return jsonify(status_code.USER_ERROR)
 
 
+'''
+退出
+'''
 @user_blueprint.route('/logout/', methods=['DELETE'])
+@is_login
 def user_logout():
     session.clear()
     return jsonify(status_code.SUCCESS)
 
+
+'''
+登录之后进入用户首页
+'''
 @user_blueprint.route('/my/')
+@is_login
 def my():
-    """
-    登录之后进入用户首页
-    """
     return render_template('my.html')
 
 
+'''
+修改用户信息
+'''
 @user_blueprint.route('/profile/', methods=['GET', 'PUT'])
+@is_login
 def profile():
-    """
-    修改用户信息
-    """
     if request.method == 'GET':
         """
         跳转至修改用户信息界面
@@ -184,7 +192,11 @@ def profile():
             return jsonify(status_code.PARAMS_ERROR)
 
 
+'''
+返回用户数据
+'''
 @user_blueprint.route('/user/')
+@is_login
 def get_user_profile():
     """
     返回用户数据
@@ -197,19 +209,21 @@ def get_user_profile():
     return jsonify(user=user.to_basic_dict())
 
 
+'''
+展示实名认证的界面
+'''
 @user_blueprint.route('/auth/')
+@is_login
 def auth():
-    """
-    展示实名认证的界面
-    """
     return render_template('auth.html')
 
 
+'''
+实名认证
+'''
 @user_blueprint.route('/auths/', methods=['GET', 'PUT'])
+@is_login
 def auth_info():
-    """
-    实名认证
-    """
     if request.method == 'GET':
         """
         返回认证信息
@@ -247,3 +261,5 @@ def auth_info():
             return jsonify(status_code.DATABASE_ERROR)
         # 返回数据
         return jsonify(status_code.SUCCESS)
+
+
